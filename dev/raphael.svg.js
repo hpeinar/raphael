@@ -379,6 +379,20 @@ window.Raphael && window.Raphael.svg && function(R) {
                             o.paper.defs.appendChild(el);
                             $(node, {"clip-path": "url(#" + el.id + ")"});
                             o.clip = rc;
+                        } else {
+                            /** CUSTOM CODE TO SUPPORT CLIPPING PATH instead of rect **/
+                            o.clip && o.clip.parentNode.parentNode.removeChild(o.clip.parentNode);
+                            var el = $("clipPath"),
+                                rc = $("path");
+                            el.id = "r" + (R._id++)[toString](36);
+                            $(rc, {
+                                d: rect
+                            });
+                            el[appendChild](rc);
+                            o.paper.defs[appendChild](el);
+                            $(node, {"clip-path": "url(#" + el.id + ")"});
+                            o.clip = rc;
+                            /** END OF CUSTOM CODE **/
                         }
                         if (!value) {
                             var path = node.getAttribute("clip-path");
